@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<HTML>
+  <HEAD>
+    <meta charset = "utf-8" > 
+ 
+    <!-- 包含外部CSS. -->
+    <link href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel = "stylesheet" type = "text / css" / >    
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css" >  
+ 
+    <!-- 包含编辑器样式. -->
+    <link href = "https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/css/froala_editor.pkgd.min.css" rel = "stylesheet" type = "text / css" />    
+    <link href = "https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/css/froala_style.min.css" rel = "stylesheet" type = "text / css" />    
+  </HEAD>
+ 
+  <BODY>
+    <!-- 创建一个我们将用作可编辑区域的标记. -->
+    <!-- 您也可以使用div标签. -->
+    <div id="froala-editor">
+  <p>You can see the new buttons added after the separator in the toolbar.</p>
+</div>
+ 
+    <!-- 包含外部JS库. -->
+    <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js" > </script>  
+    <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js" > </script>  
+    <script type = "text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js" > </script>  
+ 
+    <!-- 包含编辑器JS文件. -->
+    <script type = "text/javascript" src = "https://cdn.jsdelivr.net/npm/froala-editor@2.9.1/js/froala_editor.pkgd.min.js" > </script>  
+    <!-- 初始化编辑器. -->
+   <script src = '../wysiwyg_editor/js/languages/zh_cn.js'> </script> 
+  <script>
+    $(function() {
+      $('#edit').froalaEditor({
+    	inlineMode : false,
+	    alwaysBlank : true,
+		direction : "ltr",
+        // Set the image upload URL.
+        imageUploadURL: 'http://192.168.0.123:8080/dc/upload',
+        //imageManagerLoadURL:'/upload_image',
+      //  imageUploadParam:'image_param',
+        //.imageUploadParam是包含上载请求中图像文件信息的参数的名称。默认值为“file”，但您可以将其更改为您想要
+         // Additional upload params.
+        imageUploadParams: {id: 'my_editor'},
+        // Set request type.
+        imageUploadMethod: 'POST',
+        // Set max image size to 5MB.
+        imageMaxSize: 5 * 1024 * 1024,
+        autosave : true,
+		//autosaveInterval: 5000,
+		//         saveURL: '/articles/upload',
+		//         saveParams: { postId: "123" },
+		spellcheck : true,
+		plainPaste : true,
+		enableScript: false,
+		//imageUploadParam : 'file',
+		language : 'zh_cn',
+		tableResizerOffset : 5,
+		tableResizingLimit : 100,
+		paragraphFormatSelection: true,
+		fontFamilySelection: true,
+        fontSizeSelection: true,
+		toolbarButtons : [ 'bold', 'italic',
+				'underline', 'strikeThrough',
+				'paragraphFormat', 'align',
+				'color', 'fontSize','fontFamily',
+				'insertTable', 'insertImage',
+				'undo', 'redo', 'formatOL',
+				'formatUL', 'outdent',
+				'indent', 'clearFormatting',
+				'fullscreen','help'],
+        imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+        imageButtons : [ "floatImageLeft",
+			"floatImageNone",
+			"floatImageRight", "linkImage",
+			"replaceImage", "removeImage" ],
+        imageUploadParams: {
+          id: 'my_editor'
+        }
+      })
+       .on('froalaEditor.image.beforeUpload', function (e, editor, images) {
+    	   console.log("1:")
+    	   console.log(e)
+        // Return false if you want to stop the image upload.
+      })
+      .on('froalaEditor.image.uploaded', function (e, editor, response) {
+    	  console.log("2:")
+    	  console.log(e)
+        // Image was uploaded to the server.
+      })
+      //删除
+      .on('froalaEditor.image.removed', function (e, editor, response) {
+    	  console.log("delete:")
+    	  console.log(e)
+        // Image was uploaded to the server.
+      })
+      //删除
+      .on('froalaEditor.file.unlink', function (e, editor, response) {
+    	  console.log("delete:")
+    	  console.log(e)
+        // Image was uploaded to the server.
+      })
+      .on('froalaEditor.image.inserted', function (e, editor, $img, response) {
+    	  console.log("3:")
+    	  console.log(e)
+        // Image was inserted in the editor.
+      })
+      .on('froalaEditor.image.replaced', function (e, editor, $img, response) {
+    	  console.log("4:")
+    	  console.log(e)
+        // Image was replaced in the editor.
+      })
+      .on('froalaEditor.image.error', function (e, editor, error, response) {
+    	  console.log("error:")
+    	  console.log(error)
+        });
+      $('button').click(function(){
+    	  console.log("yes")
+    	  var e = $('#edit').froalaEditor('html.get')
+    	  console.log(e)
+      })
+    });
+  </script>
+  </BODY>
+</HTML>
